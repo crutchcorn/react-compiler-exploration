@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-let count = 1000;
+const initialCount = 10000;
+let count = initialCount;
 const initialState = {
-  items: Array.from({ length: 1000 }, (_, i) => i + 1),
+  items: Array.from({ length: initialCount }, (_, i) => i + 1),
 };
 
 const testSlice = createSlice({
@@ -10,7 +11,7 @@ const testSlice = createSlice({
   initialState,
   reducers: {
     reset() {
-      count = 1000;
+      count = initialCount;
       return initialState;
     },
     addItem(state) {
