@@ -1,30 +1,29 @@
-# React + TypeScript + Vite
+# React Compiler Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demos [the React Compiler](https://react.dev/learn/react-compiler) by featuring:
 
-Currently, two official plugins are available:
+- A simple +1 counter
+- A list of 10,000 items rendering
+- A single component to host the state
+- Redux to add the 10,000 items using an older `connect` API
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![](./assets/main_screen.png)
 
-## Expanding the ESLint configuration
+## Before React Compiler
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+If we go through and:
 
-- Configure the top-level `parserOptions` property like this:
+- Add an item 2 times
+- Increment the counter 2 times
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+And look at it through the React DevTools profiler, we can see that even when we change state unrelated to the items array, it will still cause a VDOM diff on the 10,000 items, leading to slow(er) performance:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+![](./assets/before_compiler.png)
+
+## After React Compiler
+
+Because the React Compiler optimizes state and comp via memoization, it's able to optimize the rendering of the 10,000 items when not interacting with them:
+
+![](./assets/after_compiler.png)
+
+This optimization occured without _any_ code changes on our end in any way.
