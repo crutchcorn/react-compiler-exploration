@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { addItem, useAppDispatch, useAppSelector } from "./store";
+import { addItem, RootState, useAppDispatch } from "./store";
+import { connect } from "react-redux";
 
-function App() {
+function mapStateToProps(state: RootState) {
+  return {
+    items: state.test.items,
+  };
+}
+
+function App({ items }: ReturnType<typeof mapStateToProps>) {
   const [count, setCount] = useState(0);
-
-  const items = useAppSelector((state) => state.test.items);
 
   const dispatch = useAppDispatch();
 
@@ -36,4 +41,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(mapStateToProps)(App);
